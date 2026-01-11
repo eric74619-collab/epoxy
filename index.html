@@ -7,103 +7,112 @@
     <style>
         :root {
             --primary-color: #2563eb;
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
+            --text-color: #0f172a;
+            --border-color: #cbd5e1;
+            --input-bg: #ffffff;
             --success-color: #16a34a;
-            --warning-color: #d97706;
             --danger-color: #dc2626;
         }
 
         body {
-            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            font-family: 'Microsoft JhengHei', 'Segoe UI', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         h1 {
             text-align: center;
             color: var(--primary-color);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            font-weight: 800;
         }
 
-        /* Card Styles */
+        /* --- 卡片容器 --- */
         .card {
             background-color: var(--card-bg);
-            border-radius: 8px;
+            border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
             border: 1px solid var(--border-color);
         }
 
         .card-header {
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--bg-color);
-            padding-bottom: 10px;
         }
 
         .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: bold;
             color: var(--primary-color);
             margin: 0;
         }
 
-        /* Input Table Styles */
-        .input-group {
-            display: grid;
-            grid-template-columns: 2fr 1.5fr 1.5fr 1.5fr 1.5fr 0.5fr;
-            gap: 10px;
-            align-items: end; /* Align to bottom for labels */
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f1f5f9;
-            border-radius: 6px;
-        }
-        
-        /* Headers for Input Columns */
-        .col-header {
-            font-size: 0.85rem;
-            font-weight: bold;
-            color: #64748b;
-            margin-bottom: 5px;
-            display: block;
+        /* --- 輸入行區塊 (Row) --- */
+        .input-row {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
         }
 
-        /* Input Fields - Light Mode */
+        /* 輸入欄位群組 (Grid) */
+        .fields-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            align-items: start;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+
+        /* --- 輸入框樣式 --- */
         input[type="text"],
         input[type="number"],
         select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #cbd5e1;
-            border-radius: 4px;
-            background-color: #ffffff;
+            padding: 10px;
+            border: 1px solid #94a3b8;
+            border-radius: 6px;
+            background-color: var(--input-bg);
             color: #000000;
             font-size: 1rem;
-            box-sizing: border-box; /* Fix padding issues */
+            width: 100%;
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
-            outline: none;
+            outline: 2px solid var(--primary-color);
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
         }
 
-        /* Remove Spinners */
+        /* 隱藏數字上下箭頭 */
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -113,146 +122,104 @@
             -moz-appearance: textfield;
         }
 
-        /* Buttons */
+        /* --- 結果顯示文字 (小) --- */
+        .calc-display {
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* --- 按鈕 --- */
         .btn {
-            padding: 8px 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            padding: 10px 20px;
             cursor: pointer;
-            font-weight: 500;
-            transition: background-color 0.2s;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: 0.2s;
+            width: 100%;
         }
 
         .btn-add {
             background-color: var(--success-color);
             color: white;
-            width: 100%;
             margin-top: 10px;
         }
+        .btn-add:hover { background-color: #15803d; }
 
         .btn-remove {
             background-color: #fee2e2;
             color: var(--danger-color);
+            margin-top: 10px;
             padding: 8px;
-            font-weight: bold;
         }
+        .btn-remove:hover { background-color: #fecaca; }
 
-        .btn-remove:hover {
-            background-color: #fecaca;
-        }
-
-        /* Dynamic Calculated Text */
-        .calc-display {
-            font-size: 0.85rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-top: 4px;
-            display: block;
-        }
-
-        /* Global Settings */
+        /* --- 全域設定 (計量比) --- */
         .global-settings {
-            display: flex;
-            align-items: center;
-            gap: 15px;
             background-color: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
             padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
+            margin-top: 20px;
         }
 
-        /* Expert Advice Box */
-        .expert-box {
-            background-color: #ecfdf5; /* Light Green/Blue tint */
-            border-left: 5px solid var(--success-color);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .expert-title {
-            font-weight: bold;
-            color: #065f46;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .expert-content {
-            font-size: 0.95rem;
-            color: #064e3b;
-        }
-        
-        .expert-section {
-            margin-bottom: 12px;
-        }
-        
-        .expert-label {
-            font-weight: bold;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        /* Calculation Breakdown - Lab Notebook Style */
-        .breakdown-box {
-            background-color: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            padding: 20px;
-            font-family: 'Consolas', 'Monaco', monospace; /* Monospace font */
-            color: #334155;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        
-        .breakdown-title {
-            font-family: 'Segoe UI', sans-serif;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #475569;
-            border-bottom: 1px dashed #94a3b8;
-            padding-bottom: 5px;
-        }
-        
-        .breakdown-step {
-            margin-bottom: 15px;
-        }
-        
-        .breakdown-line {
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        /* Result Section */
+        /* --- 結果區 (移到卡片內) --- */
         .result-box {
             background-color: var(--primary-color);
             color: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 8px;
             text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
         }
 
-        .result-primary {
-            font-size: 2.5rem;
+        .result-main {
+            font-size: 2.2rem;
             font-weight: 800;
-            margin: 10px 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            margin: 5px 0;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
-        .result-secondary {
-            font-size: 1.5rem;
-            background-color: rgba(255,255,255,0.2);
-            padding: 10px;
+        .result-sub {
+            background-color: rgba(255,255,255,0.15);
+            padding: 8px 15px;
             border-radius: 6px;
-            margin-top: 15px;
             display: inline-block;
+            margin-top: 10px;
+            font-size: 1.1rem;
         }
 
-        .result-label {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        /* --- 專家建議區 --- */
+        .expert-box {
+            background-color: #f0fdf4;
+            border-left: 6px solid var(--success-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .expert-title {
+            color: #166534;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #bbf7d0;
+            padding-bottom: 10px;
+        }
+
+        /* --- 計算過程區 --- */
+        .breakdown-box {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            color: #334155;
+            font-size: 0.95rem;
         }
 
     </style>
@@ -260,297 +227,323 @@
 <body>
 
 <div class="container">
-    <h1>高階雙組份環氧配方計算機</h1>
-
-    <div class="global-settings">
-        <label for="stoichiometry" style="font-weight: bold;">化學計量比 (Stoichiometry):</label>
-        <input type="number" id="stoichiometry" value="1.0" step="0.05" style="width: 100px;">
-        <span style="font-size: 0.9rem; color: #64748b;">(預設 1.0, >1 為胺過量)</span>
-    </div>
+    <h1>🧪 高階雙組份環氧配方計算機</h1>
 
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">A 劑 - 樹脂 (Resin)</h2>
+            <span class="card-title">A 劑 - 樹脂 (Resin)</span>
         </div>
         <div id="resin-container">
             </div>
-        <button class="btn btn-add" onclick="addResinRow()">+ 新增樹脂</button>
+        <button class="btn btn-add" onclick="addResinRow()">+ 新增樹脂 (Add Resin)</button>
     </div>
 
     <div class="card">
         <div class="card-header">
-            <h2 class="card-title">B 劑 - 硬化劑 (Hardener)</h2>
+            <span class="card-title">B 劑 - 硬化劑 (Hardener)</span>
         </div>
         <div id="hardener-container">
             </div>
-        <button class="btn btn-add" onclick="addHardenerRow()">+ 新增硬化劑</button>
+        <button class="btn btn-add" onclick="addHardenerRow()">+ 新增硬化劑 (Add Hardener)</button>
+
+        <div class="global-settings">
+            <div class="field-group">
+                <label for="stoichiometry" class="field-label" style="font-size: 1rem;">化學計量比 (Stoichiometry):</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="number" id="stoichiometry" value="1.0" step="0.05" style="width: 120px; font-weight: bold;">
+                    <span style="color: #64748b; font-size: 0.9rem;">(預設 1.0，>1 為胺過量)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-box">
+            <div style="opacity: 0.9; font-size: 0.9rem;">建議配比 (PHR - 實驗室標準)</div>
+            <div class="result-main" id="result-phr">100 : --</div>
+            
+            <div class="result-sub">
+                <div style="opacity: 0.9; font-size: 0.8rem; margin-bottom: 2px;">現場施工比例 (重量比)</div>
+                <div id="result-ratio" style="font-weight: bold;">-- : 1</div>
+            </div>
+        </div>
     </div>
 
-    <div class="card expert-box">
-        <div class="expert-title">⚗️ 專家配方分析與建議 (Expert Advice)</div>
-        <div id="expert-advice-content" class="expert-content">
+    <div class="expert-box">
+        <div class="expert-title">⚗️ 專家配方分析與建議 (Expert Analysis)</div>
+        <div id="expert-advice-content">
             請輸入樹脂與硬化劑數據以取得分析報告...
         </div>
     </div>
 
-    <div class="card breakdown-box">
-        <div class="breakdown-title">🔢 計算過程詳解 (Calculation Breakdown)</div>
+    <div class="breakdown-box">
+        <div style="font-weight: bold; margin-bottom: 10px; color: #475569; border-bottom: 1px dashed #94a3b8; padding-bottom:5px;">
+            🔢 詳細計算過程 (Calculation Breakdown)
+        </div>
         <div id="math-breakdown">
             等待數據輸入...
-        </div>
-    </div>
-
-    <div class="result-box">
-        <div class="result-label">建議配比 (PHR - 實驗室標準)</div>
-        <div class="result-primary" id="result-phr">100 : --</div>
-        
-        <div class="result-secondary">
-            <div class="result-label">現場施工比例 (重量比)</div>
-            <div id="result-ratio" style="font-weight: bold;">-- : 1</div>
         </div>
     </div>
 </div>
 
 <script>
-    // --- State Management ---
+    // --- 狀態管理 ---
     let resinCount = 0;
     let hardenerCount = 0;
 
-    // --- Initialization ---
+    // --- 網頁載入時執行 ---
     document.addEventListener('DOMContentLoaded', () => {
-        addResinRow(); // Start with 1 row
-        addHardenerRow(); // Start with 1 row
+        addResinRow(); 
+        addHardenerRow();
         
-        // Global Event Listener for Reactivity (Input & Delete)
-        document.getElementById('stoichiometry').addEventListener('input', calculateAll);
+        // 監聽計量比輸入
+        const stoichInput = document.getElementById('stoichiometry');
+        if(stoichInput) {
+            stoichInput.addEventListener('input', calculateAll);
+        }
     });
 
-    // --- Dynamic Row Functions ---
-
-    function createInputGroupHTML(type, index) {
-        if (type === 'resin') {
-            return `
-                <div class="input-group" id="resin-row-${index}">
-                    <div>
-                        <span class="col-header">樹脂名稱</span>
-                        <input type="text" placeholder="例如: YD-011" class="calc-input">
+    // --- 產生輸入框 HTML ---
+    function createResinRowHTML(index) {
+        return `
+            <div class="input-row" id="resin-row-${index}">
+                <div class="fields-grid">
+                    <div class="field-group" style="flex: 2;">
+                        <label class="field-label">樹脂名稱</label>
+                        <input type="text" placeholder="例如: YD-128" class="calc-input">
                     </div>
-                    <div>
-                        <span class="col-header">重量占比 (%)</span>
-                        <input type="number" class="calc-input resin-wt" placeholder="例如: 100" value="${index===1 ? 100 : ''}">
+                    <div class="field-group">
+                        <label class="field-label">重量占比 (%)</label>
+                        <input type="number" class="calc-input resin-wt" placeholder="100" value="${index===1 ? 100 : ''}">
                     </div>
-                    <div>
-                        <span class="col-header">固含量 (%)</span>
-                        <input type="number" class="calc-input resin-nv" placeholder="例如: 75">
+                    <div class="field-group">
+                        <label class="field-label">固含量 (NV%)</label>
+                        <input type="number" class="calc-input resin-nv" placeholder="例如: 100">
                     </div>
-                    <div>
-                        <span class="col-header">輸入環氧當量</span>
-                        <input type="number" class="calc-input resin-eew" placeholder="例如: 475">
+                    <div class="field-group">
+                        <label class="field-label">輸入環氧當量</label>
+                        <input type="number" class="calc-input resin-eew" placeholder="例如: 188">
                     </div>
-                    <div>
-                        <span class="col-header">當量基準</span>
+                    <div class="field-group" style="flex: 1.5;">
+                        <label class="field-label">當量基準</label>
                         <select class="calc-input resin-toggle">
                             <option value="solid">固體 (需換算)</option>
-                            <option value="solution">原液 (TDS值)</option>
+                            <option value="solution" selected>原液/液體 (TDS值)</option>
                         </select>
-                        <span class="calc-display" id="resin-display-${index}">-> 溶液EEW: --</span>
-                    </div>
-                    <div>
-                        <span class="col-header">操作</span>
-                        ${index > 1 ? `<button class="btn btn-remove" onclick="removeRow('resin-row-${index}')">X</button>` : ''}
+                        <div class="calc-display" id="resin-display-${index}">-> 溶液EEW: --</div>
                     </div>
                 </div>
-            `;
-        } else {
-            return `
-                <div class="input-group" id="hardener-row-${index}">
-                    <div>
-                        <span class="col-header">硬化劑名稱</span>
+                ${index > 1 ? `<button class="btn btn-remove" onclick="removeRow('resin-row-${index}')">刪除此行</button>` : ''}
+            </div>
+        `;
+    }
+
+    function createHardenerRowHTML(index) {
+        return `
+            <div class="input-row" id="hardener-row-${index}">
+                <div class="fields-grid">
+                    <div class="field-group" style="flex: 2;">
+                        <label class="field-label">硬化劑名稱</label>
                         <input type="text" placeholder="例如: G-5022" class="calc-input">
                     </div>
-                    <div>
-                        <span class="col-header">重量占比 (%)</span>
-                        <input type="number" class="calc-input hardener-wt" placeholder="例如: 100" value="${index===1 ? 100 : ''}">
+                    <div class="field-group">
+                        <label class="field-label">重量占比 (%)</label>
+                        <input type="number" class="calc-input hardener-wt" placeholder="100" value="${index===1 ? 100 : ''}">
                     </div>
-                    <div>
-                        <span class="col-header">原液活潑氫當量</span>
-                        <input type="number" class="calc-input hardener-ahew" placeholder="例如: 230">
+                    <div class="field-group">
+                        <label class="field-label">原液活潑氫當量</label>
+                        <input type="number" class="calc-input hardener-ahew" placeholder="例如: 95">
                     </div>
-                    <div>
-                        <span class="col-header">稀釋後濃度 (%)</span>
+                    <div class="field-group">
+                        <label class="field-label">稀釋後濃度 (%)</label>
                         <input type="number" class="calc-input hardener-conc" placeholder="預設 100" value="100">
-                        <span class="calc-display" id="hardener-display-${index}">-> 有效AHEW: --</span>
-                    </div>
-                    <div></div>
-                    <div>
-                        <span class="col-header">操作</span>
-                        ${index > 1 ? `<button class="btn btn-remove" onclick="removeRow('hardener-row-${index}')">X</button>` : ''}
+                        <div class="calc-display" id="hardener-display-${index}">-> 有效AHEW: --</div>
                     </div>
                 </div>
-            `;
+                ${index > 1 ? `<button class="btn btn-remove" onclick="removeRow('hardener-row-${index}')">刪除此行</button>` : ''}
+            </div>
+        `;
+    }
+
+    // --- 新增/刪除邏輯 ---
+    function addResinRow() {
+        if(resinCount >= 5) return; 
+        resinCount++;
+        const container = document.getElementById('resin-container');
+        if(container) {
+            container.insertAdjacentHTML('beforeend', createResinRowHTML(resinCount));
+            bindEvents(); 
         }
     }
 
-    function addResinRow() {
-        if(resinCount >= 3) return;
-        resinCount++;
-        const container = document.getElementById('resin-container');
-        container.insertAdjacentHTML('beforeend', createInputGroupHTML('resin', resinCount));
-        bindEvents();
-    }
-
     function addHardenerRow() {
-        if(hardenerCount >= 2) return;
+        if(hardenerCount >= 3) return; 
         hardenerCount++;
         const container = document.getElementById('hardener-container');
-        container.insertAdjacentHTML('beforeend', createInputGroupHTML('hardener', hardenerCount));
-        bindEvents();
+        if(container) {
+            container.insertAdjacentHTML('beforeend', createHardenerRowHTML(hardenerCount));
+            bindEvents();
+        }
     }
 
     function removeRow(id) {
-        document.getElementById(id).remove();
-        calculateAll();
+        const el = document.getElementById(id);
+        if(el) {
+            el.remove();
+            calculateAll();
+        }
     }
 
     function bindEvents() {
-        // Re-bind input events to all inputs for real-time calculation
         const inputs = document.querySelectorAll('.calc-input');
         inputs.forEach(input => {
-            input.removeEventListener('input', calculateAll); // Prevent duplicates
+            input.removeEventListener('input', calculateAll); 
             input.addEventListener('input', calculateAll);
         });
     }
 
-    // --- CORE CALCULATION LOGIC ---
-
+    // --- 核心計算邏輯 (NV=0 修正版) ---
     function calculateAll() {
-        // 1. Calculate Part A (Resin)
+        // 1. 計算 A 劑
         let totalEqA = 0;
         let breakdownA = "";
-        let solidEEWSum = 0; // For expert analysis
+        let solidEEWSum = 0; 
         let totalResinWt = 0;
 
         const resinRows = document.querySelectorAll('[id^="resin-row-"]');
         resinRows.forEach(row => {
             const wt = parseFloat(row.querySelector('.resin-wt').value) || 0;
-            const nv = parseFloat(row.querySelector('.resin-nv').value) || 100;
+            
+            // 修正：區分空值與0
+            const nvStr = row.querySelector('.resin-nv').value;
+            const nv = nvStr === "" ? 100 : parseFloat(nvStr);
+
+            // 即使 NV=0，也允許讀取 inputEEW
             const inputEEW = parseFloat(row.querySelector('.resin-eew').value) || 0;
             const toggle = row.querySelector('.resin-toggle').value;
             const displaySpan = row.querySelector('[id^="resin-display-"]');
             
             totalResinWt += wt;
 
-            if (inputEEW > 0 && wt > 0 && nv > 0) {
-                // *** CRITICAL RESIN LOGIC ***
+            // 特殊情況：固含為 0 (溶劑)
+            if (nv === 0) {
+                // 顯示為 0 (不參與反應)
+                displaySpan.textContent = `-> 溶液EEW: 0.0 (溶劑)`;
+                displaySpan.style.color = "#64748b"; // 灰色字體
+
+                // 不參與當量計算 (貢獻為 0)
+                const contribution = 0;
+                // EEW 當作無限大，不加入計算
+                
+                breakdownA += `<div style="margin-bottom:4px; color:#64748b;">樹脂(溶劑): ${wt}% ÷ 無限大 = <b>0.0000</b></div>`;
+            } 
+            else if (inputEEW > 0) {
+                // 正常計算
+                displaySpan.style.color = "var(--primary-color)"; // 恢復藍色
+                
                 let effectiveEEW;
                 let solidEEW;
 
                 if (toggle === 'solid') {
-                    // Formula: Input / (NV/100)
                     effectiveEEW = inputEEW / (nv / 100);
                     solidEEW = inputEEW;
                 } else {
-                    // Formula: Input is Solution EEW. Solid EEW = Input * (NV/100)
                     effectiveEEW = inputEEW;
                     solidEEW = inputEEW * (nv / 100);
                 }
 
-                // Update Row Display
                 displaySpan.textContent = `-> 溶液EEW: ${effectiveEEW.toFixed(1)}`;
 
-                // Add to Mixture Sum
                 const contribution = wt / effectiveEEW;
                 totalEqA += contribution;
-                
-                // Add to Analysis Sum (Weighted)
                 solidEEWSum += (wt * solidEEW);
 
-                breakdownA += `<span class="breakdown-line">樹脂行: ${wt}% ÷ ${effectiveEEW.toFixed(1)} = <b>${contribution.toFixed(4)}</b></span>`;
+                breakdownA += `<div style="margin-bottom:4px;">樹脂: ${wt}% ÷ ${effectiveEEW.toFixed(1)} = <b>${contribution.toFixed(4)}</b></div>`;
             } else {
                 displaySpan.textContent = "-> 溶液EEW: --";
             }
         });
 
-        // 2. Calculate Part B (Hardener)
+        // 2. 計算 B 劑
         let totalEqB = 0;
         let breakdownB = "";
-        let ahewSum = 0; // For expert analysis
+        let ahewSum = 0; 
         let totalHardenerWt = 0;
 
         const hardenerRows = document.querySelectorAll('[id^="hardener-row-"]');
         hardenerRows.forEach(row => {
             const wt = parseFloat(row.querySelector('.hardener-wt').value) || 0;
             const inputAHEW = parseFloat(row.querySelector('.hardener-ahew').value) || 0;
-            const conc = parseFloat(row.querySelector('.hardener-conc').value) || 100;
+            
+            // 修正：區分空值與0
+            const concStr = row.querySelector('.hardener-conc').value;
+            const conc = concStr === "" ? 100 : parseFloat(concStr);
+
             const displaySpan = row.querySelector('[id^="hardener-display-"]');
 
             totalHardenerWt += wt;
 
-            if (inputAHEW > 0 && conc > 0 && wt > 0) {
-                // *** CRITICAL HARDENER LOGIC ***
-                // Formula: Original / (Concentration/100)
+            if (conc === 0) {
+                // 濃度為0，視為溶劑
+                displaySpan.textContent = `-> 有效AHEW: 0.0 (溶劑)`;
+                displaySpan.style.color = "#64748b";
+                breakdownB += `<div style="margin-bottom:4px; color:#64748b;">硬化劑(溶劑): ${wt}% ÷ 無限大 = <b>0.0000</b></div>`;
+            }
+            else if (inputAHEW > 0) {
+                displaySpan.style.color = "var(--primary-color)";
                 const effectiveAHEW = inputAHEW / (conc / 100);
-                
-                // Update Row Display
                 displaySpan.textContent = `-> 有效AHEW: ${effectiveAHEW.toFixed(1)}`;
 
-                // Add to Mixture Sum
                 const contribution = wt / effectiveAHEW;
                 totalEqB += contribution;
-                
-                // Add to Analysis Sum (Weighted)
                 ahewSum += (wt * inputAHEW);
 
-                breakdownB += `<span class="breakdown-line">硬化劑行: ${wt}% ÷ ${effectiveAHEW.toFixed(1)} = <b>${contribution.toFixed(4)}</b></span>`;
+                breakdownB += `<div style="margin-bottom:4px;">硬化劑: ${wt}% ÷ ${effectiveAHEW.toFixed(1)} = <b>${contribution.toFixed(4)}</b></div>`;
             } else {
-                displaySpan.textContent = "-> 有效AHEW: --";
+                displaySpan.textContent = "-> 有效: --";
             }
         });
 
-        // 3. Final Mixture Calculation
+        // 3. 混合參數
         const finalEEW_A = totalEqA > 0 ? (100 / totalEqA) : 0;
         const finalAHEW_B = totalEqB > 0 ? (100 / totalEqB) : 0;
         const stoichiometry = parseFloat(document.getElementById('stoichiometry').value) || 1.0;
 
-        // 4. Update Breakdown HTML
-        let breakdownHTML = `<div class="breakdown-step"><strong>1. A 劑 (樹脂) 詳細運算</strong><br>${breakdownA}`;
+        // 4. 更新計算過程
+        let breakdownHTML = `<div style="margin-bottom:15px;"><strong>1. A 劑 (樹脂) 混合運算</strong><br>${breakdownA}`;
         if(totalEqA > 0) {
-             breakdownHTML += `<br>A 劑總當量數 (Total Eq) = <b>${totalEqA.toFixed(4)}</b>`;
-             breakdownHTML += `<br>A 劑混合 EEW = 100 ÷ ${totalEqA.toFixed(4)} = <b>${finalEEW_A.toFixed(2)}</b></div>`;
+             breakdownHTML += `A 劑總當量數 (Total Eq) = <b>${totalEqA.toFixed(4)}</b><br>`;
+             breakdownHTML += `A 劑混合 EEW = 100 ÷ ${totalEqA.toFixed(4)} = <span style="color:#2563eb"><b>${finalEEW_A.toFixed(2)}</b></span></div>`;
         } else {
-            breakdownHTML += `等待數據...</div>`;
+            breakdownHTML += `(等待數據...)</div>`;
         }
 
-        breakdownHTML += `<div class="breakdown-step"><strong>2. B 劑 (硬化劑) 詳細運算</strong><br>${breakdownB}`;
+        breakdownHTML += `<div style="margin-bottom:15px;"><strong>2. B 劑 (硬化劑) 混合運算</strong><br>${breakdownB}`;
         if(totalEqB > 0) {
-             breakdownHTML += `<br>B 劑總當量數 (Total Eq) = <b>${totalEqB.toFixed(4)}</b>`;
-             breakdownHTML += `<br>B 劑混合 AHEW = 100 ÷ ${totalEqB.toFixed(4)} = <b>${finalAHEW_B.toFixed(2)}</b></div>`;
+             breakdownHTML += `B 劑總當量數 (Total Eq) = <b>${totalEqB.toFixed(4)}</b><br>`;
+             breakdownHTML += `B 劑混合 AHEW = 100 ÷ ${totalEqB.toFixed(4)} = <span style="color:#2563eb"><b>${finalAHEW_B.toFixed(2)}</b></span></div>`;
         } else {
-            breakdownHTML += `等待數據...</div>`;
+            breakdownHTML += `(等待數據...)</div>`;
         }
 
-        // 5. Final Ratio & PHR
+        // 5. 最終 PHR
         let finalPHR = 0;
         let finalRatio = 0;
 
         if (finalEEW_A > 0 && finalAHEW_B > 0) {
-            // Theoretical PHR = (B_AHEW / A_EEW) * 100
             const basePHR = (finalAHEW_B / finalEEW_A) * 100;
             finalPHR = basePHR * stoichiometry;
             finalRatio = finalPHR > 0 ? (100 / finalPHR) : 0;
 
-            breakdownHTML += `<div class="breakdown-step"><strong>3. 最終配比計算</strong><br>`;
+            breakdownHTML += `<div><strong>3. 最終配比計算</strong><br>`;
             breakdownHTML += `理論 PHR = (${finalAHEW_B.toFixed(2)} ÷ ${finalEEW_A.toFixed(2)}) × 100 = <b>${basePHR.toFixed(2)}</b><br>`;
-            breakdownHTML += `修正後 PHR = ${basePHR.toFixed(2)} × ${stoichiometry} = <b>${finalPHR.toFixed(2)}</b></div>`;
+            breakdownHTML += `修正後 PHR = ${basePHR.toFixed(2)} × ${stoichiometry} = <span style="color:#dc2626"><b>${finalPHR.toFixed(2)}</b></span></div>`;
         }
 
         document.getElementById('math-breakdown').innerHTML = breakdownHTML;
         
-        // Update Result Display
         document.getElementById('result-phr').textContent = finalPHR > 0 ? `100 : ${finalPHR.toFixed(2)}` : "100 : --";
         document.getElementById('result-ratio').textContent = finalRatio > 0 ? `${finalRatio.toFixed(1)} : 1` : "-- : 1";
 
-        // 6. Expert Advice
+        // 6. 更新專家建議
         updateExpertAdvice(solidEEWSum, totalResinWt, ahewSum, totalHardenerWt);
     }
 
@@ -567,38 +560,36 @@
         let resinAnalysis = "";
         let hardenerAnalysis = "";
 
-        // Resin Analysis
         if (avgSolidEEW < 300) {
-            resinAnalysis = `⚠️ <b>高交聯密度 (Liquid Rich):</b> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 偏低。優點是硬度極高、防腐性佳；但<b>乾燥慢 (缺乏物理快乾)</b>，打磨時容易黏砂紙，且漆膜較脆。`;
+            resinAnalysis = `⚠️ <b>高交聯密度 (Liquid Rich):</b><br> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 偏低。<br>• 優點：硬度極高、防腐性佳。<br>• 缺點：<b>乾燥慢</b>，打磨難，漆膜較脆。`;
         } else if (avgSolidEEW >= 300 && avgSolidEEW <= 650) {
-            resinAnalysis = `✅ <b>標準底漆型 (Solid Type 1):</b> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 處於黃金區間。溶劑揮發後能提供良好的<b>物理乾燥 (Finger Dry)</b>，利於快速打磨施工，硬度與韌性平衡。`;
+            resinAnalysis = `✅ <b>標準底漆型 (Solid Type 1):</b><br> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 處於黃金區間。<br>• 特性：具備良好的<b>物理乾燥</b>，利於快速打磨。`;
         } else {
-            resinAnalysis = `ℹ️ <b>高分子量型 (High MW):</b> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 高。乾燥速度極快，柔韌性優異；但需注意耐溶劑性較差，且交聯密度較低。`;
+            resinAnalysis = `ℹ️ <b>高分子量型 (High MW):</b><br> 平均固體 EEW (${avgSolidEEW.toFixed(0)}) 高。<br>• 特性：乾燥極快，柔韌性好，但耐溶劑性較弱。`;
         }
 
-        // Hardener Analysis
         if (avgAHEW < 100) {
-            hardenerAnalysis = `⚠️ <b>高活性硬化劑:</b> AHEW (${avgAHEW.toFixed(0)}) 低，胺基濃度高。反應極快，<b>活化期 (Pot Life) 極短</b>，施工需謹慎。漆膜可能較硬脆。`;
+            hardenerAnalysis = `⚠️ <b>高活性硬化劑:</b><br> AHEW (${avgAHEW.toFixed(0)}) 低。<br>• 注意：反應極快，<b>活化期 (Pot Life) 短</b>，需注意施工時間。`;
         } else if (avgAHEW >= 100 && avgAHEW <= 250) {
-            hardenerAnalysis = `✅ <b>標準型硬化劑:</b> AHEW (${avgAHEW.toFixed(0)}) 適中 (常見於 Polyamide Adduct)。具備<b>3-6小時的良好活化期</b>，對金屬密著性佳，不易產生橘皮。`;
+            hardenerAnalysis = `✅ <b>標準型硬化劑:</b><br> AHEW (${avgAHEW.toFixed(0)}) 適中。<br>• 特性：活化期約 3-6 小時，密著性佳。`;
         } else {
-            hardenerAnalysis = `ℹ️ <b>低反應性硬化劑:</b> AHEW (${avgAHEW.toFixed(0)}) 高。活化期長，但乾燥慢，通常需要強制烘烤 (80°C+) 才能完全發揮性能。`;
+            hardenerAnalysis = `ℹ️ <b>低反應性硬化劑:</b><br> AHEW (${avgAHEW.toFixed(0)}) 高。<br>• 注意：活化期長，但乾燥慢，通常需烘烤。`;
         }
 
         contentDiv.innerHTML = `
-            <div class="expert-section">
-                <span class="expert-label">【樹脂系統特性分析】</span>
+            <div style="margin-bottom:15px;">
+                <span class="expert-label">【樹脂系統分析】</span>
                 ${resinAnalysis}
             </div>
-            <div class="expert-section">
-                <span class="expert-label">【硬化劑系統特性分析】</span>
+            <div style="margin-bottom:15px;">
+                <span class="expert-label">【硬化劑系統分析】</span>
                 ${hardenerAnalysis}
             </div>
-            <div class="expert-section" style="margin-top: 15px; font-size: 0.9em; color: #555;">
-                <span class="expert-label">化學參數小教室：</span>
-                • <b>EEW (環氧當量):</b> 數值越小 = 反應點越密集 = 越硬、越慢乾。<br>
-                • <b>AHEW (活潑氫當量):</b> 數值越小 = 胺基越濃 = 反應越快、活化期越短。<br>
-                • <b>計量比 (Stoichiometry):</b> >1.0 (胺過量) 可加快乾燥並提升潮濕附著，但易有胺浮出風險。
+            <div style="font-size: 0.9em; color: #555; background: #fff; padding: 10px; border-radius: 4px;">
+                <b>💡 參數說明：</b><br>
+                • <b>EEW (環氧當量):</b> 越小 = 越硬、越慢乾。<br>
+                • <b>AHEW (活潑氫當量):</b> 越小 = 反應越快、時間越短。<br>
+                • <b>計量比:</b> >1.0 (胺過量) 可加快反應與附著。
             </div>
         `;
     }
