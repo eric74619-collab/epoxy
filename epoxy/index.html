@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>高級 2K 環氧樹脂配方計算機</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Step 1: 加入 Babel 即時翻譯官 -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+      html {
+        color-scheme: light;
+      }
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type=number] {
+        -moz-appearance: textfield;
+      }
+      .form-input {
+        @apply mt-1 block w-full rounded-md border-gray-300 bg-white text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm transition-shadow duration-150;
+      }
+      #calculation-breakdown {
+        font-family: Consolas, 'Courier New', monospace;
+      }
+      input:-webkit-autofill,
+      input:-webkit-autofill:hover,
+      input:-webkit-autofill:focus,
+      input:-webkit-autofill:active {
+          -webkit-text-fill-color: #111827 !important;
+          -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+          transition: background-color 5000s ease-in-out 0s;
+      }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@19.2.3",
+    "react-dom/client": "https://esm.sh/react-dom@19.2.3/client",
+    "react/jsx-runtime": "https://esm.sh/react@19.2.3/jsx-runtime",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-gray-100 font-sans text-gray-800 p-4 sm:p-6 lg:p-8">
+    <div id="app" class="max-w-7xl mx-auto"></div>
+
+    <!-- Step 2: 修改 script 標籤，讓 Babel 進行處理 -->
+    <script type="text/babel" data-type="module" src="/index.tsx"></script>
+
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
