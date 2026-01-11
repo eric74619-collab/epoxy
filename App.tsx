@@ -20,25 +20,27 @@ const App: React.FC = () => {
     let totalResinWeight = 0;
     const resinSumOfEquivalents = resins.reduce((sum, resin, index) => {
         totalResinWeight += resin.weightPercentage;
-        const eew = resin.eew > 0 ? resin.eew : 0;
-        const nv = resin.nv > 0 ? resin.nv : 0; // BUG FIX: Correctly handle 0 or empty NV
+        
+        const inputEew = resin.eew > 0 ? resin.eew : 0;
+        const nv = resin.nv > 0 ? resin.nv : 0;
         const weight = resin.weightPercentage > 0 ? resin.weightPercentage : 0;
         
-        let effectiveEew = eew;
-        // BUG FIX: Overhauled logic to be more robust and chemically accurate
+        // --- CRITICAL BUG FIX: Implementing specified EEW conversion logic ---
+        let effectiveEew;
         if (resin.eewType === 'solid') {
-            if (nv > 0) {
-                effectiveEew = eew / (nv / 100);
-            } else {
-                // A solid resin with 0% solids has an infinite solution EEW.
-                // Its contribution to equivalents will be zero.
-                effectiveEew = Infinity;
-            }
+            // For solid resin, calculate the EEW of the solution based on solid content (NV)
+            effectiveEew = (nv > 0) ? (inputEew / (nv / 100)) : 0;
+        } else {
+            // For "as supplied" solution resin, use the EEW directly
+            effectiveEew = inputEew;
         }
+        // --- END OF FIX ---
 
-        const equivalent = isFinite(effectiveEew) && effectiveEew > 0 ? (weight / effectiveEew) : 0;
-        const eewDisplay = isFinite(effectiveEew) ? effectiveEew.toFixed(2) : '∞';
+        const equivalent = effectiveEew > 0 ? (weight / effectiveEew) : 0;
+        
+        const eewDisplay = effectiveEew > 0 ? effectiveEew.toFixed(2) : 'N/A';
         resinBreakdown.push(`樹脂 ${index + 1}: ${weight.toFixed(1)}% ÷ ${eewDisplay} = ${equivalent.toFixed(4)}`);
+        
         return sum + equivalent;
     }, 0);
     const mixtureEew = resinSumOfEquivalents > 0 ? 100 / resinSumOfEquivalents : 0;

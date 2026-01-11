@@ -28,7 +28,12 @@ const PartA: React.FC<PartAProps> = ({ resins, setResins, totalWeight }) => {
   const handleToggleType = (id: number) => {
      setResins(resins.map(r => {
         if (r.id === id) {
-            return { ...r, eewType: r.eewType === 'solid' ? 'solution' : 'solid' };
+            const newType = r.eewType === 'solid' ? 'solution' : 'solid';
+            // When switching to 'solution' (as supplied), conceptually its NV is 100%.
+            if (newType === 'solution') {
+                return { ...r, eewType: 'solution', nv: 100 };
+            }
+            return { ...r, eewType: 'solid' };
         }
         return r;
      }));
@@ -71,7 +76,7 @@ interface ResinRowProps {
 
 const ResinRow: React.FC<ResinRowProps> = ({ resin, onRemove, onChange, onToggleType, canRemove }) => {
     const isSolution = resin.eewType === 'solution';
-    const effectiveEew = (resin.eewType === 'solid' && resin.nv > 0 && resin.nv < 100)
+    const effectiveEew = (resin.eewType === 'solid' && resin.nv > 0 && resin.eew > 0)
         ? resin.eew / (resin.nv / 100)
         : null;
 
@@ -86,8 +91,8 @@ const ResinRow: React.FC<ResinRowProps> = ({ resin, onRemove, onChange, onToggle
                 <div className="col-span-2">
                     <label className="block text-sm font-medium text-gray-600 mb-1">EEW 類型</label>
                     <div className="flex rounded-md shadow-sm">
-                        <button type="button" onClick={() => onToggleType(resin.id)} className={`flex-1 px-4 py-2 text-sm font-medium rounded-l-md transition-colors ${!isSolution ? 'bg-indigo-600 text-white z-10 ring-2 ring-indigo-500' : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'}`}>固體</button>
-                        <button type="button" onClick={() => onToggleType(resin.id)} className={`-ml-px flex-1 px-4 py-2 text-sm font-medium rounded-r-md transition-colors ${isSolution ? 'bg-indigo-600 text-white z-10 ring-2 ring-indigo-500' : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'}`}>原液</button>
+                        <button type="button" onClick={() => onToggleType(resin.id)} className={`flex-1 px-4 py-2 text-sm font-medium rounded-l-md transition-colors ${!isSolution ? 'bg-indigo-600 text-white z-10 ring-2 ring-indigo-500' : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'}`}>固體 (Solid)</button>
+                        <button type="button" onClick={() => onToggleType(resin.id)} className={`-ml-px flex-1 px-4 py-2 text-sm font-medium rounded-r-md transition-colors ${isSolution ? 'bg-indigo-600 text-white z-10 ring-2 ring-indigo-500' : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'}`}>原液 (As Supplied)</button>
                     </div>
                 </div>
                 <div>
